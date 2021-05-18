@@ -62,4 +62,5 @@ def filter(genre=None, language=None):
     except:
         return "Record not found"
     
-app.run()      
+if __name__ == '__main__':
+    app.run(debug=True)
