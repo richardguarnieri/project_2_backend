@@ -2,6 +2,8 @@
 from flask import Flask, jsonify, request
 from sqlalchemy import create_engine
 import pandas as pd
+from flask_cors import CORS
+
 
 rds_connection_string = (f'dfprimldpzkawt:daee61afbe9e4cd6d00f43d9dbbbeb3aee8b373b1d8b7c67ff29e014246fb644@ec2-3-217-219-146.compute-1.amazonaws.com:5432/d8r4gedbk2rdiv')
 engine = create_engine(f'postgresql://{rds_connection_string}')
@@ -12,6 +14,7 @@ movies_data = data.set_index('imdb_title_id').T.to_dict('dict')
 
 #STARTING FLAST SERVER
 app = Flask(__name__)
+CORS(app)
 
 #DEFINING HOME PAGE
 @app.route('/')
