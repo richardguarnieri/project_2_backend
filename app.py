@@ -57,7 +57,7 @@ def year(year):
         return "Year not found"
 
 @app.route('/all_years')
-def all_titles():
+def all_years():
     title_yr = data_yr['year_mv'].to_dict()
     try:
         return jsonify(title_yr)
