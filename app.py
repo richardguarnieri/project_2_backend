@@ -10,6 +10,7 @@ engine = create_engine(f'postgresql://{rds_connection_string}')
 conn = engine.connect()
 
 data = pd.read_sql_query('SELECT * FROM imdb_movies_global', conn)
+data_yr = pd.read_sql_query('SELECT DISTINCT year_mv FROM imdb_movies_global ORDER BY year_mv', conn)
 movies_data = data.set_index('imdb_title_id').T.to_dict('dict')
 
 #STARTING FLAST SERVER
@@ -54,7 +55,15 @@ def year(year):
         return jsonify(yearDic)
     except:
         return "Year not found"
-    
+
+@app.route('/all_years')
+def all_titles():
+    title_yr = data_yr['year_mv'].to_dict()
+    try:
+        return jsonify(title_yr)
+    except:
+        return "Year not found"
+
 #RETURNING RECORDS PER GENRE AND LANGUAGE
 @app.route('/filter/<genre>/<language>')
 def filter(genre=None, language=None):
@@ -64,6 +73,6 @@ def filter(genre=None, language=None):
         return jsonify(filterDic)
     except:
         return "Record not found"
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
